@@ -29,12 +29,13 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password')
         ]);
 
-        // Monitoring::create([
-        //     'suhu' => 28.8,
-        //     'kelembapan' => 90,
-        //     'kipas' => "Mati",
-        //     'humidifier' => "Mati",
-        // ]);
+        // Contoh Sample (Tidak boleh tidak ada)
+        Monitoring::create([
+            'suhu' => 28.8,
+            'kelembapan' => 90,
+            'kipas' => "Mati",
+            'humidifier' => "Mati",
+        ]);
 
         // \App\Models\Control::factory(10)->create();
     }
