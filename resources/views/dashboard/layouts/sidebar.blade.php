@@ -17,7 +17,7 @@
                     <span>History Monitoring</span></a>
             </li>
 
-            <li class="dropdown {{ Request::is('dashboard/history/*') ? 'active' : '' }}">
+            {{-- <li class="dropdown {{ Request::is('dashboard/history/*') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-cogs"></i><span>History
                         Kontrol</span></a>
                 <ul class="dropdown-menu">
@@ -28,7 +28,7 @@
                         <a class="nav-link" href="{{ route('dashboard.history.humidifier') }}">Pelembab</a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
             <li class="dropdown">
                 <a href="{{ route('logout') }}" class="nav-link"><i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span></a>
