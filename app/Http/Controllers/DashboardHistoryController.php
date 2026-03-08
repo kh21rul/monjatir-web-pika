@@ -58,14 +58,29 @@ class DashboardHistoryController extends Controller
             'Content-Disposition' => "attachment; filename=\"$filename\"",
         ];
 
-        $callback = function () use ($controls) {
+        $callback = function () use ($controls, $filter) {
             $file = fopen('php://output', 'w');
 
-            // BOM untuk Excel agar UTF-8 terbaca benar
+            // BOM UTF-8
             fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
 
+            // Judul laporan
+            fputcsv($file, ['REKAPITULASI MONITORING JAMUR TIRAM'], ';');
+            fputcsv($file, ['Tanggal Filter', $filter], ';');
+            fputcsv($file, ['Diekspor pada', now()->format('d-m-Y H:i:s') . ' WIB'], ';');
+            fputcsv($file, ['Total Data', $controls->count() . ' record'], ';');
+            fputcsv($file, [], ';'); // baris kosong pemisah
+
             // Header kolom
-            fputcsv($file, ['No', 'Tanggal', 'Pukul', 'Suhu', 'Kelembapan', 'Kipas', 'Humidifier']);
+            fputcsv($file, [
+                'No',
+                'Tanggal',
+                'Pukul (WIB)',
+                'Suhu (°C)',
+                'Kelembapan (%)',
+                'Status Kipas',
+                'Status Humidifier',
+            ], ';');
 
             // Data rows
             foreach ($controls as $i => $control) {
@@ -73,12 +88,16 @@ class DashboardHistoryController extends Controller
                     $i + 1,
                     $control->created_at->format('d-m-Y'),
                     $control->created_at->format('H:i'),
-                    $control->suhu,
-                    $control->kelembapan,
+                    str_replace('.', ',', $control->suhu),        // koma desimal
+                    str_replace('.', ',', $control->kelembapan),  // koma desimal
                     $control->kipas,
                     $control->humidifier,
-                ]);
+                ], ';');
             }
+
+            // Ringkasan bawah
+            fputcsv($file, [], ';');
+            fputcsv($file, ['--- Akhir Laporan ---'], ';');
 
             fclose($file);
         };
