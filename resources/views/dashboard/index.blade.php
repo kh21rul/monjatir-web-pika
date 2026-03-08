@@ -99,12 +99,12 @@
                                                 <td>{{ $control->kelembapan }}</td>
                                                 <td>
                                                     <div
-                                                        class="badge {{ $control->kipas == 'Hidup' ? 'badge-danger' : 'badge-success' }}">
+                                                        class="badge {{ $control->kipas == 'Hidup' ? 'badge-success' : 'badge-danger' }}">
                                                         {{ $control->kipas }}</div>
                                                 </td>
                                                 <td>
                                                     <div
-                                                        class="badge {{ $control->humidifier == 'Hidup' ? 'badge-danger' : 'badge-success' }}">
+                                                        class="badge {{ $control->humidifier == 'Hidup' ? 'badge-success' : 'badge-danger' }}">
                                                         {{ $control->humidifier }}</div>
                                                 </td>
                                             </tr>

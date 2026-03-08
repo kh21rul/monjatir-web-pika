@@ -32,6 +32,7 @@ Route::resource('/dashboard/controls', DashboardHistoryController::class)->middl
     'destroy' => 'dashboard.controls.destroy'
 ]);
 Route::get('/dashboard/cetak', [DashboardHistoryController::class, 'cetak'])->middleware('auth');
+Route::get('/dashboard/export-csv', [DashboardHistoryController::class, 'exportCsv'])->middleware('auth')->name('dashboard.export.csv');
 
 Route::get('/dashboard/history/fan', [DashboardHistoryController::class, 'getfan'])->name('dashboard.history.fan')->middleware('auth');
 Route::get('/dashboard/history/humidifier', [DashboardHistoryController::class, 'gethumidifier'])->name('dashboard.history.humidifier')->middleware('auth');

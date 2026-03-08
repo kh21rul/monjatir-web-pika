@@ -46,6 +46,46 @@ class DashboardHistoryController extends Controller
         ]);
     }
 
+    public function exportCsv(Request $request)
+    {
+        $filter = $request->input('filter', date('Y-m-d'));
+        $controls = Control::whereDate('created_at', $filter)->get();
+
+        $filename = 'rekap-monitoring-' . $filter . '.csv';
+
+        $headers = [
+            'Content-Type'        => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ];
+
+        $callback = function () use ($controls) {
+            $file = fopen('php://output', 'w');
+
+            // BOM untuk Excel agar UTF-8 terbaca benar
+            fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
+            // Header kolom
+            fputcsv($file, ['No', 'Tanggal', 'Pukul', 'Suhu', 'Kelembapan', 'Kipas', 'Humidifier']);
+
+            // Data rows
+            foreach ($controls as $i => $control) {
+                fputcsv($file, [
+                    $i + 1,
+                    $control->created_at->format('d-m-Y'),
+                    $control->created_at->format('H:i'),
+                    $control->suhu,
+                    $control->kelembapan,
+                    $control->kipas,
+                    $control->humidifier,
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

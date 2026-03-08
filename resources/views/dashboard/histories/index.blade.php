@@ -36,9 +36,16 @@
                                         <button type="submit" class="btn btn-primary mb-2 mr-2"><i
                                                 class="fas fa-search"></i> Filters</button>
                                         <!-- Tombol Cetak -->
-                                        <a class="btn btn-success mb-2" target="_blank"
-                                            href="/dashboard/cetak{{ request()->has('filter') ? '?filter=' . request('filter') : '' }}"><i
-                                                class="fas fa-print"></i> Cetak</a>
+                                        @if ($controls->count() > 0)
+                                            <a class="btn btn-success mb-2 mr-2" target="_blank"
+                                                href="/dashboard/cetak{{ request()->has('filter') ? '?filter=' . request('filter') : '' }}"><i
+                                                    class="fas fa-print"></i> Cetak</a>
+
+                                            <a class="btn btn-warning mb-2"
+                                                href="{{ route('dashboard.export.csv', request()->only('filter')) }}">
+                                                <i class="fas fa-file-csv"></i> Export CSV
+                                            </a>
+                                        @endif
                                     </form>
                                 </div>
                             </div>
@@ -67,12 +74,12 @@
                                                     <td>{{ $control->kelembapan }}</td>
                                                     <td>
                                                         <div
-                                                            class="badge {{ $control->kipas == 'Hidup' ? 'badge-danger' : 'badge-success' }}">
+                                                            class="badge {{ $control->kipas == 'Hidup' ? 'badge-success' : 'badge-danger' }}">
                                                             {{ $control->kipas }}</div>
                                                     </td>
                                                     <td>
                                                         <div
-                                                            class="badge {{ $control->humidifier == 'Hidup' ? 'badge-danger' : 'badge-success' }}">
+                                                            class="badge {{ $control->humidifier == 'Hidup' ? 'badge-success' : 'badge-danger' }}">
                                                             {{ $control->humidifier }}</div>
                                                     </td>
                                                     <td>
